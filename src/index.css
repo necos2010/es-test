@@ -1,0 +1,25 @@
+/* App.css or your component CSS */
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #f29c00;
+}
+
+.fullscreen-container {
+  background-color: #f29c00; /* Change to your preferred background */
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  width: 90%;
+  text-align: left;
+}
