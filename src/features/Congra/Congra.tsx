@@ -12,10 +12,12 @@ function Congra() {
   const totalQuestions = 50;
 
   const getLevel = (score: number) => {
-    if (score <= 10) return "Beginner";
-    if (score <= 25) return "Intermediate";
-    if (score <= 40) return "Advanced";
-    return "Expert";
+    if (score <= 8) return "Beginner";
+    if(score <= 15) return "Elementary";
+    if (score <= 30) return "Pre-Intermediate";
+    if (score <= 40) return "Intermediate";
+    if (score >= 40) return "IELTS";
+    
   };
 
   const score = answers.filter((item) => item.isCorrect).length;

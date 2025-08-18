@@ -1,4 +1,4 @@
-import "./Header.css";
+import "./Header.css"
 import YellowLogo from "../assets/Header-logo.png";
 
 function Header() {
