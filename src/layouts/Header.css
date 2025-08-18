@@ -1,0 +1,35 @@
+.Header {
+  background-color: #0a0c0a;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Header-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.Header-logo {
+  height: 60px;
+  margin-right: 20px;
+}
+
+.Header-text {
+  display: flex;
+  flex-direction: column;
+  color: #f5a100;
+  font-family: 'Georgia', serif;
+}
+
+.Header-edford {
+  margin: 0;
+  font-size: 20px;
+}
+
+.Header-school {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+}

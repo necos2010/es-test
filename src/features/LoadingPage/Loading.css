@@ -1,0 +1,31 @@
+.Loading-page {
+  background-color: #f5a100;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.Loading-content {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: slideDown 1.5s ease-out forwards;
+}
+
+.Loading-logo {
+  width: 80px;
+  height: auto;
+}
+
+/* Animation */
+@keyframes slideDown {
+  to {
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
