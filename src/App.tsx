@@ -5,10 +5,12 @@ import Warning from "./features/Warning/Warning.tsx";
 import Questions from "./features/Question/Questions.tsx";
 import Congra from "./features/Congra/Congra.tsx";
 import Loading from "./features/LoadingPage/Loading.tsx";
+import MyAnswers from "./features/MyAnswers/MyAnswers.tsx";
 
 function App() {
   return (
     <Routes>
+      <Route path="/answers" element={<MyAnswers />} />
       <Route path="/congra" element={<Congra/>}/>
       <Route path="/questions" element={<Questions/>}/>
       <Route path="/" element={<Warning/>} />

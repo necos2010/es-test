@@ -5,6 +5,8 @@ import "./Question.css";
 
 type Answer = {
   isCorrect: boolean;
+  userAnswer: string;
+  correctAnswer: string;
 };
 
 function Questions() {
@@ -14,36 +16,61 @@ function Questions() {
 
   const navigate = useNavigate();
 
-  const handleOptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setSelectedOption(event.target.value);
+  // Handle selecting checkbox (only one option allowed)
+  const handleOptionChange = (option: string) => {
+    // Prevent unchecking (cannot deselect the checked option)
+    if (selectedOption === option) return;
+    setSelectedOption(option);
+  };
+
+  // Handle input change (for input type question)
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelectedOption(e.target.value);
+  };
+
+  const saveAnswer = () => {
+    const quiz = quizData[currentQuestion];
+    const correctAnswer = quiz.correctAnswer.toLowerCase().trim();
+    const userAnswer = selectedOption.toLowerCase().trim();
+
+    // If no answer selected, consider wrong with empty userAnswer
+    const isCorrect = correctAnswer === userAnswer && userAnswer !== "";
+
+    // Save answer
+    setAnswers((prev) => {
+      // Replace answer if already exists for current question (when going back and changing)
+      const updated = [...prev];
+      updated[currentQuestion] = { isCorrect, userAnswer: selectedOption, correctAnswer: quiz.correctAnswer };
+      return updated;
+    });
   };
 
   const handleNext = () => {
-    if (selectedOption.trim() === "") {
-      alert("Please select or enter an answer.");
-      return;
-    }
-
-    const correctAnswer = quizData[currentQuestion].correctAnswer.toLowerCase().trim();
-    const userAnswer = selectedOption.toLowerCase().trim();
-
-    const isCorrect = correctAnswer === userAnswer;
-
-    // Add current question's correctness to answers array
-    setAnswers((prevAnswers) => [...prevAnswers, { isCorrect }]);
+    // Save current answer even if none selected (treated as wrong)
+    saveAnswer();
 
     if (currentQuestion < quizData.length - 1) {
+      // Move next
       setCurrentQuestion((prev) => prev + 1);
-      setSelectedOption("");
+      // Set selected option to previously saved answer if exists
+      setSelectedOption(answers[currentQuestion + 1]?.userAnswer || "");
     } else {
-      // Pass the whole answers array to Congra
+      // Finish - navigate with answers
       navigate("/congra", {
         state: {
-          answers: [...answers, { isCorrect }], // include last answer
+          answers,
           total: quizData.length,
         },
       });
     }
+  };
+
+  const handlePrevious = () => {
+    if (currentQuestion === 0) return;
+    // Save current answer before going back
+    saveAnswer();
+    setCurrentQuestion((prev) => prev - 1);
+    setSelectedOption(answers[currentQuestion - 1]?.userAnswer || "");
   };
 
   const quiz = quizData[currentQuestion];
@@ -60,13 +87,13 @@ function Questions() {
               <label
                 key={index}
                 className={`option ${selectedOption === option ? "selected" : ""}`}
+                onClick={() => handleOptionChange(option)}
               >
                 <input
-                  type="radio"
+                  type="checkbox"
                   name={`question-${quiz.id}`}
-                  value={option}
                   checked={selectedOption === option}
-                  onChange={handleOptionChange}
+                  readOnly
                 />
                 {option}
               </label>
@@ -79,15 +106,24 @@ function Questions() {
               className="input-answer"
               placeholder="Type your answer here"
               value={selectedOption}
-              onChange={(e) => setSelectedOption(e.target.value)}
+              onChange={handleInputChange}
             />
           )}
         </div>
       </div>
 
-      <button className="confirm-button" onClick={handleNext}>
-        {currentQuestion < quizData.length - 1 ? "Next ➡" : "Finish ✅"}
-      </button>
+<div className="nav-buttons">
+  {currentQuestion > 0 && (
+    <button className="nav-button prev-button" onClick={handlePrevious}>
+      ⬅ Previous
+    </button>
+  )}
+
+  <button className="nav-button next-button" onClick={handleNext}>
+    {currentQuestion < quizData.length - 1 ? "Next ➡" : "Finish ✅"}
+  </button>
+</div>
+
     </div>
   );
 }

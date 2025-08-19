@@ -1,13 +1,16 @@
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
 import "./Congra.css";
 import Header from "../../layouts/Header";
 
 type Answer = {
   isCorrect: boolean;
+  userAnswer: string;
+  correctAnswer: string;
 };
 
 function Congra() {
   const location = useLocation();
+  const navigate = useNavigate();
   const answers: Answer[] = location.state?.answers || [];
   const totalQuestions = 50;
 
@@ -19,10 +22,9 @@ function Congra() {
     return "IELTS";
   };
 
-  const score = answers.filter((item) => item.isCorrect).length;
+  const score = answers.filter((item) => item?.isCorrect).length;
   const level = getLevel(score);
 
-  // Group answers into sets of 10
   const answerGroups = Array.from({ length: 5 }, (_, groupIndex) =>
     answers.slice(groupIndex * 10, (groupIndex + 1) * 10)
   );
@@ -54,10 +56,10 @@ function Congra() {
                     return (
                       <td
                         key={colIndex}
-                        className={answer.isCorrect ? "correct" : "wrong"}
-                        aria-label={`Question ${questionNumber}: ${answer.isCorrect ? "Correct" : "Wrong"}`}
+                        className={answer?.isCorrect ? "correct" : "wrong"}
+                        aria-label={`Question ${questionNumber}: ${answer?.isCorrect ? "Correct" : "Wrong"}`}
                       >
-                        {questionNumber}. {answer.isCorrect ? "✅" : "❌"}
+                        {questionNumber}. {answer?.isCorrect ? "✅" : "❌"}
                       </td>
                     );
                   })}
@@ -67,9 +69,15 @@ function Congra() {
           </table>
         </div>
 
-        <Link to="/">
-          <button className="back-btn">Back to Home Page</button>
-        </Link>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <button className="back-btn" onClick={() => navigate("/answers", { state: { answers } })}>
+            Show My Answers
+          </button>
+
+          <Link to="/">
+            <button className="back-btn">Back to Home Page</button>
+          </Link>
+        </div>
       </main>
     </div>
   );
