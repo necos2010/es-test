@@ -1,6 +1,8 @@
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import "./Congra.css";
 import Header from "../../layouts/Header";
+import Confetti from "react-confetti";
+import useWindowSize from "react-use/lib/useWindowSize";
 
 type Answer = {
   isCorrect: boolean;
@@ -13,6 +15,7 @@ function Congra() {
   const navigate = useNavigate();
   const answers: Answer[] = location.state?.answers || [];
   const totalQuestions = 50;
+  const { width, height } = useWindowSize(); // for confetti
 
   const getLevel = (score: number) => {
     if (score <= 8) return "Beginner";
@@ -31,11 +34,13 @@ function Congra() {
 
   return (
     <div className="congra-container">
+      <Confetti width={width} height={height} numberOfPieces={200} />
+
       <Header />
 
       <main className="congra-main">
-        <h1 className="congra-title">
-          Congratulations <span role="img" aria-label="party">🎉</span>
+        <h1 className="congra-title animate-pop">
+          🎉 Congratulations!
         </h1>
 
         <p className="congra-score">
@@ -46,7 +51,7 @@ function Congra() {
           Level: <strong>{level}</strong>
         </p>
 
-        <div className="congra-table-wrapper">
+        <div className="congra-table-wrapper animate-fade">
           <table className="congra-answer-table" aria-label="Answer correctness table">
             <tbody>
               {answerGroups.map((group, rowIndex) => (
@@ -69,7 +74,7 @@ function Congra() {
           </table>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+        <div className="congra-buttons">
           <button className="back-btn" onClick={() => navigate("/answers", { state: { answers } })}>
             Show My Answers
           </button>

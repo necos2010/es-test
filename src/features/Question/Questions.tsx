@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import quizData from "../../data/Quiz";
-import "./Question.css";
+import "./Question.css"
 
 type Answer = {
   isCorrect: boolean;

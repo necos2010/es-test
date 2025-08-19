@@ -15,31 +15,34 @@ function MyAnswers() {
   return (
     <div className="my-answers-container">
       <h1>My Answers</h1>
-      <table className="answers-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Question</th>
-            <th>Your Answer</th>
-            <th>Correct Answer</th>
-            <th>Result</th>
-          </tr>
-        </thead>
-        <tbody>
-          {quizData.map((q, index) => {
-            const answer = answers[index];
-            return (
-              <tr key={index}>
-                <td data-label="#"> {q.id} </td>
-                <td data-label="Question"> {q.question} </td>
-                <td data-label="Your Answer"> {answer?.userAnswer || "—"} </td>
-                <td data-label="Correct Answer"> {answer?.correctAnswer} </td>
-                <td data-label="Result"> {answer?.isCorrect ? "✅" : "❌"} </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+
+      <div className="table-wrapper">
+        <table className="answers-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Question</th>
+              <th>Your Answer</th>
+              <th>Correct Answer</th>
+              <th>Result</th>
+            </tr>
+          </thead>
+          <tbody>
+            {quizData.map((q, index) => {
+              const answer = answers[index];
+              return (
+                <tr key={index}>
+                  <td>{q.id}</td>
+                  <td>{q.question}</td>
+                  <td>{answer?.userAnswer || "—"}</td>
+                  <td>{answer?.correctAnswer}</td>
+                  <td>{answer?.isCorrect ? "✅" : "❌"}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       <Link to="/">
         <button className="back-btn">🏠 Home</button>
