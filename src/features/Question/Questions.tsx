@@ -5,7 +5,7 @@ import "./Question.css";
 
 type Answer = {
   isCorrect: boolean;
-  userAnswer: string;
+  userAnswer: string; // может быть пустым
   correctAnswer: string;
 };
 
@@ -13,49 +13,50 @@ function Questions() {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState("");
   const [answers, setAnswers] = useState<Answer[]>([]);
-
   const navigate = useNavigate();
 
-  // Handle selecting checkbox (only one option allowed)
+  // Выбор варианта (повторный клик снимает выбор)
   const handleOptionChange = (option: string) => {
-    // Prevent unchecking (cannot deselect the checked option)
-    if (selectedOption === option) return;
-    setSelectedOption(option);
+    if (selectedOption === option) {
+      setSelectedOption(""); // снимаем выбор
+    } else {
+      setSelectedOption(option);
+    }
   };
 
-  // Handle input change (for input type question)
+  // Для input-вопросов
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
   };
 
+  // Сохраняем ответ (может быть пустой)
   const saveAnswer = () => {
     const quiz = quizData[currentQuestion];
     const correctAnswer = quiz.correctAnswer.toLowerCase().trim();
     const userAnswer = selectedOption.toLowerCase().trim();
 
-    // If no answer selected, consider wrong with empty userAnswer
-    const isCorrect = correctAnswer === userAnswer && userAnswer !== "";
+    const isCorrect = userAnswer !== "" && userAnswer === correctAnswer;
 
-    // Save answer
     setAnswers((prev) => {
-      // Replace answer if already exists for current question (when going back and changing)
       const updated = [...prev];
-      updated[currentQuestion] = { isCorrect, userAnswer: selectedOption, correctAnswer: quiz.correctAnswer };
+      updated[currentQuestion] = {
+        isCorrect,
+        userAnswer: selectedOption, // может быть ""
+        correctAnswer: quiz.correctAnswer,
+      };
       return updated;
     });
   };
 
+  // Следующий вопрос
   const handleNext = () => {
-    // Save current answer even if none selected (treated as wrong)
     saveAnswer();
 
     if (currentQuestion < quizData.length - 1) {
-      // Move next
       setCurrentQuestion((prev) => prev + 1);
-      // Set selected option to previously saved answer if exists
+      // Восстанавливаем предыдущий ответ или пустой
       setSelectedOption(answers[currentQuestion + 1]?.userAnswer || "");
     } else {
-      // Finish - navigate with answers
       navigate("/congra", {
         state: {
           answers,
@@ -65,9 +66,9 @@ function Questions() {
     }
   };
 
+  // Предыдущий вопрос
   const handlePrevious = () => {
     if (currentQuestion === 0) return;
-    // Save current answer before going back
     saveAnswer();
     setCurrentQuestion((prev) => prev - 1);
     setSelectedOption(answers[currentQuestion - 1]?.userAnswer || "");
@@ -112,18 +113,17 @@ function Questions() {
         </div>
       </div>
 
-<div className="nav-buttons">
-  {currentQuestion > 0 && (
-    <button className="nav-button prev-button" onClick={handlePrevious}>
-      ⬅ Previous
-    </button>
-  )}
+      <div className="nav-buttons">
+        {currentQuestion > 0 && (
+          <button className="nav-button" onClick={handlePrevious}>
+            ⬅ Previous
+          </button>
+        )}
 
-  <button className="nav-button next-button" onClick={handleNext}>
-    {currentQuestion < quizData.length - 1 ? "Next ➡" : "Finish ✅"}
-  </button>
-</div>
-
+        <button className="nav-button" onClick={handleNext}>
+          {currentQuestion < quizData.length - 1 ? "Next ➡" : "Finish ✅"}
+        </button>
+      </div>
     </div>
   );
 }

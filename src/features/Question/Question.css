@@ -87,11 +87,12 @@
 
 /* Поле для ввода */
 .input-answer {
-  padding: 12px 0px;
-  font-size: 17px;
+  padding: 18px 16px;       /* больше внутренние отступы */
+  font-size: 22px;          /* крупный текст */
   border: 2px solid #ccc;
-  border-radius: 8px;
-  width: 100%;
+  border-radius: 12px;
+  width: 89%;
+  min-height: 34px;         /* увеличенная высота */
   transition: border-color 0.3s ease, background-color 0.3s ease;
 }
 
@@ -99,9 +100,10 @@
   border-color: #f9a825;
   outline: none;
   background-color: #fffbe6;
+  box-shadow: 0 0 8px rgba(249, 168, 37, 0.4);
 }
 
-/* Кнопка */
+/* Кнопка подтверждения */
 .confirm-button {
   margin: 30px auto 0;
   display: block;
@@ -120,7 +122,8 @@
   background-color: #333;
   transform: translateY(-2px);
 }
-/* Shared style for both navigation buttons */
+
+/* Навигационные кнопки */
 .nav-buttons {
   display: flex;
   justify-content: center;
@@ -138,15 +141,14 @@
   transition: background-color 0.3s ease, transform 0.2s ease;
   min-width: 140px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #211602, #f6a623);
+  background: linear-gradient(135deg, #1b1407, #f6a623); /* оставил как у тебя */
   color: #fff;
 }
 
 .nav-button:hover {
-  background: linear-gradient(135deg, #f6a623, #211602);
+  background: linear-gradient(135deg, #f6a623, #1b1407); /* тоже оставил */
   transform: translateY(-2px);
 }
-
 
 /* Адаптив */
 @media screen and (max-width: 600px) {
@@ -160,6 +162,11 @@
 
   .option {
     font-size: 16px;
+  }
+
+  .input-answer {
+    font-size: 18px;
+    min-height: 60px;
   }
 
   .confirm-button {
