@@ -93,6 +93,7 @@ const quizData = [
   },
   {
     id: 10,
+    text: "Emily is 8 years old. She lives in a big house. She has a huge room. She has many toys and she has a lot of friends. But Emily is not happy. She has a secret.She doesn't want to tell anyone about her secret. She feels sad. The problem is that nobody knows about it, there is no one that can help her.Emily doesn't write her homework. When there is an exam – she gets sick. She doesn't tell anyone, but the truth is she can't read and write. Emily doesn't remember the letters of the alphabet.",
     type: "multiple-choice",
     question: "Emily wants to tell her secret to everybody",
     options: ["True", "False"],
@@ -395,6 +396,7 @@ const quizData = [
   },
   {
     id: 47,
+    text: "Regular exercise offers a various of benefits for both physical and mental health. Engaging in physical activity improves cardiovascular health, strengthens muscles, and enhances flexibility. Moreover, exercise releases endorphins, which improve mood and reduce stress. Additionally, maintaining a consistent exercise routine promotes better sleep quality and boosts cognitive function. Whether it's a brisk walk, a yoga session, or a gym workout, finding an activity you enjoy is key to sticking with it. Prioritizing regular exercise can lead to a healthier and happier lifestyle overall.",
     type: "multiple-choice",
     question: "Regular exercise can only benefit physical health, not mental well-being.",
     options: ["TRUE", "FALSE", "NOT GIVEN"],

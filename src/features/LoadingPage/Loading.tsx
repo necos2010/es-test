@@ -9,7 +9,7 @@ function Loading() {
 useEffect(() => {
   const timer = setTimeout(() => {
     navigate("/questions");
-  }, 2000);
+  }, 1800);
   return () => clearTimeout(timer);
 }, [navigate]);
 

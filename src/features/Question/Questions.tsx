@@ -5,7 +5,7 @@ import "./Question.css";
 
 type Answer = {
   isCorrect: boolean;
-  userAnswer: string; // может быть пустым
+  userAnswer: string;
   correctAnswer: string;
 };
 
@@ -15,21 +15,18 @@ function Questions() {
   const [answers, setAnswers] = useState<Answer[]>([]);
   const navigate = useNavigate();
 
-  // Выбор варианта (повторный клик снимает выбор)
   const handleOptionChange = (option: string) => {
     if (selectedOption === option) {
-      setSelectedOption(""); // снимаем выбор
+      setSelectedOption(""); // Deselect if already selected
     } else {
       setSelectedOption(option);
     }
   };
 
-  // Для input-вопросов
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSelectedOption(e.target.value);
   };
 
-  // Сохраняем ответ (может быть пустой)
   const saveAnswer = () => {
     const quiz = quizData[currentQuestion];
     const correctAnswer = quiz.correctAnswer.toLowerCase().trim();
@@ -41,20 +38,18 @@ function Questions() {
       const updated = [...prev];
       updated[currentQuestion] = {
         isCorrect,
-        userAnswer: selectedOption, // может быть ""
+        userAnswer: selectedOption,
         correctAnswer: quiz.correctAnswer,
       };
       return updated;
     });
   };
 
-  // Следующий вопрос
   const handleNext = () => {
     saveAnswer();
 
     if (currentQuestion < quizData.length - 1) {
       setCurrentQuestion((prev) => prev + 1);
-      // Восстанавливаем предыдущий ответ или пустой
       setSelectedOption(answers[currentQuestion + 1]?.userAnswer || "");
     } else {
       navigate("/congra", {
@@ -66,7 +61,6 @@ function Questions() {
     }
   };
 
-  // Предыдущий вопрос
   const handlePrevious = () => {
     if (currentQuestion === 0) return;
     saveAnswer();
@@ -76,10 +70,23 @@ function Questions() {
 
   const quiz = quizData[currentQuestion];
 
+  // Shared text logic
+  let sharedText = quiz.text;
+  if ([10, 11, 12].includes(quiz.id)) {
+    sharedText = quizData[9].text; // question 10's text
+  }
+  if ([47, 48, 49, 50].includes(quiz.id)) {
+    sharedText = quizData[46].text; // question 47's text
+  }
+
   return (
     <div className="quiz-container">
       <div className="question-box animate-fade">
         <h2 className="question-number">{quiz.id}/50</h2>
+
+        {/* Shared text between question number and question text */}
+        {sharedText && <div className="shared-text">{sharedText}</div>}
+
         <p className="question-text">{quiz.question}</p>
 
         <div className="options">
