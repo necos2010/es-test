@@ -1,9 +1,8 @@
-/* Scoped inside congra-container to avoid conflicts */
 .congra-container {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  color: #000000;
+  min-height: 100vh;
+  color: #000;
   font-family: 'Inria Serif', serif;
   background-color: #F6A623;
 }
@@ -14,8 +13,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
   padding: 20px;
+  text-align: center;
 }
 
 .congra-title {
@@ -26,7 +25,6 @@
 
 .congra-score,
 .congra-level {
-  font-weight: 400;
   font-size: 22px;
   margin: 5px 0;
 }
@@ -36,16 +34,22 @@
   font-weight: 700;
 }
 
-/* Table Styles */
+.congra-table-wrapper {
+  overflow-x: auto;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 95vw;
+}
 
 .congra-answer-table {
-  margin: 20px auto;
+  margin: 0 auto;
   border-collapse: collapse;
-  width: max-content;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   border-radius: 8px;
   overflow: hidden;
   user-select: none;
+  width: 100%;
+  min-width: 400px;
 }
 
 .congra-answer-table tbody tr {
@@ -58,13 +62,12 @@
 
 .congra-answer-table td {
   border: 1px solid #e0c080;
-  padding: 12px 16px;
-  font-size: 24px;
+  padding: 10px;
+  font-size: 18px;
   text-align: center;
-  cursor: default;
-  border-radius: 4px;
   font-weight: 700;
   transition: background-color 0.3s ease, color 0.3s ease;
+  white-space: nowrap;
 }
 
 .congra-answer-table td.correct {
@@ -83,11 +86,9 @@
   background-color: #f0e6c8;
 }
 
-/* Back button */
+/* Back Button */
 .back-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  margin: 30px auto 40px;
   padding: 14px 32px;
   background-color: #000;
   color: #fff;
@@ -96,9 +97,7 @@
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin: 20px auto 40px;
-  max-width: 220px;
+  transition: background-color 0.3s ease;
 }
 
 .back-btn:hover {
@@ -106,9 +105,9 @@
 }
 
 /* Responsive */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
   .congra-title {
-    font-size: 24px;
+    font-size: 26px;
   }
 
   .congra-score,
@@ -117,12 +116,33 @@
   }
 
   .congra-answer-table td {
-    font-size: 20px;
-    padding: 8px 12px;
+    font-size: 16px;
+    padding: 8px;
   }
 
   .back-btn {
     padding: 12px 24px;
     font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .congra-title {
+    font-size: 22px;
+  }
+
+  .congra-score,
+  .congra-level {
+    font-size: 16px;
+  }
+
+  .congra-answer-table td {
+    font-size: 14px;
+    padding: 6px;
+  }
+
+  .back-btn {
+    font-size: 14px;
+    padding: 10px 20px;
   }
 }

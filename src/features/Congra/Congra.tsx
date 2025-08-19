@@ -1,5 +1,5 @@
 import { useLocation, Link } from "react-router-dom";
-import "./Congra.css"
+import "./Congra.css";
 import Header from "../../layouts/Header";
 
 type Answer = {
@@ -13,16 +13,16 @@ function Congra() {
 
   const getLevel = (score: number) => {
     if (score <= 8) return "Beginner";
-    if(score <= 15) return "Elementary";
+    if (score <= 15) return "Elementary";
     if (score <= 30) return "Pre-Intermediate";
     if (score <= 40) return "Intermediate";
-    if (score >= 40) return "IELTS";
-    
+    return "IELTS";
   };
 
   const score = answers.filter((item) => item.isCorrect).length;
   const level = getLevel(score);
 
+  // Group answers into sets of 10
   const answerGroups = Array.from({ length: 5 }, (_, groupIndex) =>
     answers.slice(groupIndex * 10, (groupIndex + 1) * 10)
   );
@@ -44,28 +44,33 @@ function Congra() {
           Level: <strong>{level}</strong>
         </p>
 
-        <table className="congra-answer-table" aria-label="Answer correctness table">
-          <tbody>
-            {answerGroups.map((group, rowIndex) => (
-              <tr key={rowIndex}>
-                {group.map((answer, colIndex) => (
-                  <td
-                    key={colIndex}
-                    className={answer.isCorrect ? "correct" : "wrong"}
-                    aria-label={answer.isCorrect ? "Correct answer" : "Wrong answer"}
-                  >
-                    {answer.isCorrect ? "✅" : "❌"}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </main>
+        <div className="congra-table-wrapper">
+          <table className="congra-answer-table" aria-label="Answer correctness table">
+            <tbody>
+              {answerGroups.map((group, rowIndex) => (
+                <tr key={rowIndex}>
+                  {group.map((answer, colIndex) => {
+                    const questionNumber = rowIndex * 10 + colIndex + 1;
+                    return (
+                      <td
+                        key={colIndex}
+                        className={answer.isCorrect ? "correct" : "wrong"}
+                        aria-label={`Question ${questionNumber}: ${answer.isCorrect ? "Correct" : "Wrong"}`}
+                      >
+                        {questionNumber}. {answer.isCorrect ? "✅" : "❌"}
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-      <Link to="/">
-        <button className="back-btn">Back to Home Page</button>
-      </Link>
+        <Link to="/">
+          <button className="back-btn">Back to Home Page</button>
+        </Link>
+      </main>
     </div>
   );
 }
