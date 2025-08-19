@@ -17,7 +17,7 @@ function Questions() {
 
   const handleOptionChange = (option: string) => {
     if (selectedOption === option) {
-      setSelectedOption(""); // Deselect if already selected
+      setSelectedOption(""); 
     } else {
       setSelectedOption(option);
     }
